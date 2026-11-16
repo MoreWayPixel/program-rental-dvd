@@ -2,9 +2,9 @@ import inquirer
 
 from tema import tema_admin, tema_user
 from utils import clear_terminal, enter
-from dvd import tampilkan_koleksi, cari_dvd, tambah_dvd, ubah_dvd, hapus_dvd
-from penyewa import tampilkan_penyewa, ubah_penyewa, hapus_penyewa
-from transaksi import tampilkan_transaksi, pengembalian_dvd, tambah_durasi, sewa_dvd, lihat_total_pendapatan
+from dvd import tampilkan_koleksi, cari_dvd, manage_dvd
+from penyewa import tampilkan_penyewa, manage_penyewa
+from transaksi import tampilkan_transaksi, pengembalian_dvd, manage_transaksi, sewa_dvd, lihat_total_pendapatan
 
 
 def menu_admin():
@@ -19,7 +19,7 @@ def menu_admin():
         print("=====================================")
         pertanyaan = [inquirer.List("pilihan", 
                                     message="Pilih menu", 
-                                    choices=[" Lihat koleksi DVD", " Cari DVD", " Tambah DVD", " Ubah data DVD", " Hapus DVD", " Lihat data penyewa", " Ubah data penyewa", " Hapus data penyewa", " Lihat semua transaksi", " Pengembalian DVD", " Tambah durasi peminjaman DVD", " Lihat total pendapatan", " Logout"])
+                                    choices=[" Lihat koleksi DVD", " Cari DVD", " Manage DVD", " Lihat data penyewa", " Manage data penyewa", " Lihat semua transaksi", " Manage transaksi", " Lihat total pendapatan", " Logout"])
                      ]
 
         jawaban = inquirer.prompt(pertanyaan, theme=tema_admin())
@@ -34,14 +34,8 @@ def menu_admin():
         elif jawaban["pilihan"] == " Cari DVD":
             cari_dvd()
 
-        elif jawaban["pilihan"]  == " Tambah DVD":
-            tambah_dvd()
-
-        elif jawaban["pilihan"] == " Ubah data DVD":
-            ubah_dvd()
-
-        elif jawaban["pilihan"] == " Hapus DVD":
-            hapus_dvd()
+        elif jawaban["pilihan"] == " Manage DVD":
+            manage_dvd()
 
         elif jawaban["pilihan"] == " Lihat data penyewa":
             clear_terminal()
@@ -49,11 +43,8 @@ def menu_admin():
             tampilkan_penyewa()
             enter("Tekan Enter untuk kembali ke menu admin...")
 
-        elif jawaban["pilihan"] == " Ubah data penyewa":
-            ubah_penyewa()
-
-        elif jawaban["pilihan"] == " Hapus data penyewa":
-            hapus_penyewa()
+        elif jawaban["pilihan"] == " Manage data penyewa":
+            manage_penyewa()
 
         elif jawaban["pilihan"] == " Lihat semua transaksi":
             clear_terminal()
@@ -62,11 +53,8 @@ def menu_admin():
             print()
             enter("Tekan Enter untuk kembali ke menu admin...")
             
-        elif jawaban["pilihan"] == " Pengembalian DVD":
-            pengembalian_dvd()
-
-        elif jawaban["pilihan"] == " Tambah durasi peminjaman DVD":
-            tambah_durasi()
+        elif jawaban["pilihan"] == " Manage transaksi":
+            manage_transaksi()
 
         elif jawaban["pilihan"] == " Lihat total pendapatan":
             lihat_total_pendapatan()
