@@ -75,6 +75,14 @@
         "kansa": {
             "password": "64",
             "peran": "admin"
+        },
+        "sartika": {
+            "password": "1234",
+            "peran": "pengguna"
+        },
+        "ikaa": {
+            "password": "2345",
+            "peran": "pengguna"
         }
     },
     "data_penyewa": {},

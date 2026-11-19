@@ -26,6 +26,13 @@ def tampilkan_penyewa():
 
 def manage_penyewa():
     clear_terminal()
+
+    if len(data_penyewa) == 0:
+        print("DATA PENYEWA 📄")
+        print("Belum ada penyewa.")
+        enter("Tekan Enter untuk kembali ke menu admin...")
+        return
+    
     while True:
         print("\n==============================")
         print("       MANAGE DATA PENYEWA")
@@ -36,7 +43,7 @@ def manage_penyewa():
         pertanyaan = [
             inquirer.List("pilihan", 
             message="Pilih menu", 
-            choices=[" Ubah data penyewa", " Hapus data denyewa"]
+            choices=[" Ubah data penyewa", " Hapus data penyewa"]
             )
         ]
         

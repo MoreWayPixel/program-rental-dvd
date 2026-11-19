@@ -140,7 +140,7 @@ def tampilkan_tabel_hasil(data_dvd):
     print(tabel)
 
 def manage_dvd():
-    clear_terminal()
+    clear_terminal()  
     while True:
         print("\n==============================")
         print("          MANAGE DVD")
