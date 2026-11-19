@@ -64,7 +64,7 @@ def manage_transaksi():
     clear_terminal()
     while True:
         print("\n==============================")
-        print("       MANAGE TRANSAKSI     ")
+        print("       MANAGE TRANSAKSI")
         print("==============================")
         pertanyaan = [
             inquirer.List("pilihan", 

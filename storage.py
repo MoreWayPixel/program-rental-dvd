@@ -38,13 +38,12 @@ def muat_data():
         with open(file_data, "r", encoding="utf-8") as f:
             isi = json.load(f)
 
-        # validasi dulu sebelum mengganti data yang sedang berjalan
         for nama in semua_data:
             if not isinstance(isi.get(nama), dict):
                 raise ValueError(f"bagian '{nama}' tidak valid")
 
     except (json.JSONDecodeError, ValueError, OSError):
-        # file rusak: simpan sebagai cadangan, lalu lanjut dengan data awal
+
         os.replace(file_data, file_data + ".rusak")
         print("File database.json rusak, dipindahkan ke database.json.rusak.")
         print("Program memakai data awal.")

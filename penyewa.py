@@ -28,7 +28,7 @@ def manage_penyewa():
     clear_terminal()
     while True:
         print("\n==============================")
-        print("       MANAGE DATA PENYEWA     ")
+        print("       MANAGE DATA PENYEWA")
         print("==============================")
         print("DATA PENYEWA 📄")
         tampilkan_penyewa()

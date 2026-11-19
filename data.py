@@ -12,7 +12,7 @@ koleksi_dvd = {
 }
 
 data_akun = {
-    "kansa" : {"password" : "64", "peran" : "admin"}
+    "etmin" : {"password" : "123", "peran" : "admin"}
 }
 
 data_penyewa = {}
