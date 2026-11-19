@@ -143,7 +143,7 @@ def manage_dvd():
     clear_terminal()
     while True:
         print("\n==============================")
-        print("       MANAGE DATA MENU       ")
+        print("          MANAGE DVD")
         print("==============================")
         pertanyaan = [
             inquirer.List("pilihan", 
