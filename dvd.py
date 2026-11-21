@@ -33,8 +33,16 @@ def cari_dvd():
     clear_terminal()
     print("CARI DVD 🔎")
     try:
-        mencari = input_teks("Masukkan judul film yang dicari: ").lower()
-        hasil = {a: b for a, b in koleksi_dvd.items() if mencari in b["judul"].lower()}
+        mencari = input_teks("Masukkan id_dvd, genre, atau judul dvd yang dicari: ").lower()
+        hasil = {}
+
+        for id_dvd, dvd in koleksi_dvd.items():
+            if(
+                mencari in str(id_dvd).lower()
+                or mencari in dvd["genre"].lower()
+                or mencari in dvd["judul"].lower()
+            ):
+                hasil[id_dvd] = dvd
 
         if len(hasil) == 0:
             raise KeyError(mencari)
