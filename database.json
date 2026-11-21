@@ -61,7 +61,7 @@
             "genre": "Horror",
             "tahun": 2013,
             "harga": 8000,
-            "stok": 11
+            "stok": 10
         },
         "X010": {
             "judul": "Hereditary",
@@ -72,23 +72,36 @@
         }
     },
     "data_akun": {
-        "kansa": {
-            "password": "64",
+        "etmin": {
+            "password": "123",
             "peran": "admin"
         },
-        "sartika": {
-            "password": "1234",
-            "peran": "pengguna"
-        },
-        "ikaa": {
-            "password": "2345",
+        "riski": {
+            "password": "12",
             "peran": "pengguna"
         }
     },
-    "data_penyewa": {},
-    "data_transaksi": {},
+    "data_penyewa": {
+        "Z001": {
+            "nama": "rsikiu",
+            "telepon": "088238293",
+            "alamat": "jalan",
+            "username": "riski"
+        }
+    },
+    "data_transaksi": {
+        "Y001": {
+            "id_penyewa": "Z001",
+            "id_dvd": "X009",
+            "harga": 8000,
+            "durasi": 5,
+            "status": "Dipinjam",
+            "jumlah": 1,
+            "username": "riski"
+        }
+    },
     "counter": {
-        "penyewa": 1,
-        "transaksi": 1
+        "penyewa": 2,
+        "transaksi": 2
     }
 }
