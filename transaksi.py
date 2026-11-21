@@ -1,5 +1,7 @@
 from prettytable import PrettyTable
+import inquirer
 
+from tema import tema_manage_transaksi
 from data import koleksi_dvd, data_penyewa, data_transaksi, counter
 from utils import clear_terminal, enter, input_teks, input_angka, total_harga
 from dvd import tampilkan_koleksi
@@ -58,6 +60,25 @@ def lihat_total_pendapatan():
     print("\nCatatan: pendapatan berjalan bisa bertambah jika durasi peminjaman diperpanjang.\n")
     enter("Tekan Enter untuk kembali ke menu admin...")
 
+def manage_transaksi():
+    clear_terminal()
+    while True:
+        print("\n==============================")
+        print("       MANAGE TRANSAKSI")
+        print("==============================")
+        pertanyaan = [
+            inquirer.List("pilihan", 
+            message="Pilih menu", 
+            choices=[" Pengembalian DVD", " Tambah durasi peminjaman DVD"]
+            )
+        ]
+        
+        jawaban = inquirer.prompt(pertanyaan, theme=tema_manage_transaksi())
+        #ntah lah
+        if jawaban["pilihan"] == " Tambah durasi peminjaman DVD":
+            tambah_durasi()
+            break
+        
 def pengembalian_dvd(username=None):
     kembali = "menu admin" if username is None else "menu pengguna"
 

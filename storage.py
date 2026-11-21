@@ -5,11 +5,9 @@ import os
 from data import koleksi_dvd, data_akun, data_penyewa, data_transaksi, counter
 
 
-FILE_DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "database.json")
+file_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "database.json")
 
-# Semua dictionary di bawah ini diisi ulang di tempat (bukan dibuat baru),
-# supaya modul lain yang sudah meng-import-nya tetap memakai data yang sama.
-SEMUA_DATA = {
+semua_data = {
     "koleksi_dvd": koleksi_dvd,
     "data_akun": data_akun,
     "data_penyewa": data_penyewa,
@@ -19,40 +17,39 @@ SEMUA_DATA = {
 
 
 def simpan_data():
-    isi = {nama: data for nama, data in SEMUA_DATA.items()}
-    file_sementara = FILE_DATA + ".tmp"
+    isi = {nama: data for nama, data in semua_data.items()}
+    file_sementara = file_data + ".tmp"
 
     try:
         with open(file_sementara, "w", encoding="utf-8") as f:
             json.dump(isi, f, indent=4, ensure_ascii=False)
-        os.replace(file_sementara, FILE_DATA)
+        os.replace(file_sementara, file_data)
 
     except (OSError, TypeError, ValueError) as e:
-        print(f"\nPERINGATAN: data GAGAL disimpan ke {FILE_DATA}")
+        print(f"\nPERINGATAN: data GAGAL disimpan ke {file_data}")
         print(f"Penyebab: {e}")
 
 def muat_data():
-    if not os.path.exists(FILE_DATA):
+    if not os.path.exists(file_data):
         simpan_data()
         return
 
     try:
-        with open(FILE_DATA, "r", encoding="utf-8") as f:
+        with open(file_data, "r", encoding="utf-8") as f:
             isi = json.load(f)
 
-        # validasi dulu sebelum mengganti data yang sedang berjalan
-        for nama in SEMUA_DATA:
+        for nama in semua_data:
             if not isinstance(isi.get(nama), dict):
                 raise ValueError(f"bagian '{nama}' tidak valid")
 
     except (json.JSONDecodeError, ValueError, OSError):
-        # file rusak: simpan sebagai cadangan, lalu lanjut dengan data awal
-        os.replace(FILE_DATA, FILE_DATA + ".rusak")
+
+        os.replace(file_data, file_data + ".rusak")
         print("File database.json rusak, dipindahkan ke database.json.rusak.")
         print("Program memakai data awal.")
         simpan_data()
         return
 
-    for nama, data in SEMUA_DATA.items():
+    for nama, data in semua_data.items():
         data.clear()
         data.update(isi[nama])

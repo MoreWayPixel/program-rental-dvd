@@ -1,5 +1,7 @@
 from prettytable import PrettyTable
+import inquirer
 
+from tema import tema_manage_dvd
 from data import koleksi_dvd, data_transaksi
 from utils import clear_terminal, enter, input_teks, input_angka, konfirmasi
 from storage import simpan_data
@@ -30,52 +32,141 @@ def tampilkan_koleksi():
     print(tabel)
 
 def cari_dvd():
-    clear_terminal()
-    print("CARI DVD 🔎")
-    try:
-        mencari = input_teks("Masukkan id_dvd, genre, atau judul dvd yang dicari: ").lower()
-        hasil = {}
-
-        for id_dvd, dvd in koleksi_dvd.items():
-            if(
-                mencari in str(id_dvd).lower()
-                or mencari in dvd["genre"].lower()
-                or mencari in dvd["judul"].lower()
-            ):
-                hasil[id_dvd] = dvd
-
-        if len(hasil) == 0:
-            raise KeyError(mencari)
+    while True:
+        clear_terminal()
+        print("==============================")
+        print("        CARI DVD  🔎      ")
+        print("==============================")
         
+        pertanyaan = [
+            inquirer.List(
+                "pilihan",
+                message="Pilih kategori pencarian",
+                choices=["Cari berdasarkan ID", "Cari berdasarkan Judul", "Cari berdasarkan Genre"]
+            )
+        ]
+        
+        jawaban = inquirer.prompt(pertanyaan, theme=tema_manage_dvd()) # Sesuaikan tema jika ada
+        
+        if jawaban["pilihan"] == "Cari berdasarkan ID":
+            cari_id()
+            break
+        elif jawaban["pilihan"] == "Cari berdasarkan Judul":
+            cari_judul()
+            break
+        elif jawaban["pilihan"] == "Cari berdasarkan Genre":
+            cari_genre()
+            break
+        
+def cari_id():
+    clear_terminal()
+    print("CARI DVD BERDASARKAN ID 🔎")
+    try:
+        id_cari = input_teks("Masukkan ID DVD yang dicari: ").upper()
+        
+        if id_cari not in koleksi_dvd:
+            raise KeyError(id_cari)
+            
     except ValueError as e:
-        print(f"\n{e}")
-
+        print(f"\nGagal mencari DVD, {e}")
     except KeyError:
-        print("\nDVD tidak ditemukan!")
-
+        print("\nDVD dengan ID tersebut tidak ditemukan!")
     else:
-        tabel = PrettyTable()
-        tabel.field_names = ["ID", "Judul", "Genre", "Tahun", "Harga Sewa", "Stok"]
-
-        for id_dvd, dvd in hasil.items():
-            tabel.add_row([
-                id_dvd,
-                dvd["judul"],
-                dvd["genre"],
-                dvd["tahun"],
-                f"Rp{dvd['harga']}",
-                dvd["stok"],
-            ])
-
-        tabel.align["Judul"] = "l"
-        tabel.align["Genre"] = "l"
-        tabel.align["Tahun"] = "l"
-
-        print(tabel)
-
+        print()
+        tampilkan_tabel_hasil({id_cari: koleksi_dvd[id_cari]})
     finally:
-        enter()
+        enter("Tekan Enter untuk kembali ke menu...")
 
+def cari_judul():
+    clear_terminal()
+    print("CARI DVD BERDASARKAN JUDUL 🔎")
+    try:
+        mencari = input_teks("Masukkan judul film yang dicari: ").lower()
+        
+        dvd_cocok = {a: b for a, b in koleksi_dvd.items() if mencari in b["judul"].lower()}
+
+        if len(dvd_cocok) == 0:
+            raise KeyError(mencari)
+            
+    except ValueError as e:
+        print(f"\nGagal mencari DVD, {e}")
+    except KeyError:
+        print("\nDVD dengan judul tersebut tidak ditemukan!")
+    else:
+        print()
+        tampilkan_tabel_hasil(dvd_cocok)
+    finally:
+        enter("Tekan Enter untuk kembali ke menu...")
+
+def cari_genre():
+    clear_terminal()
+    print("CARI DVD BERDASARKAN GENRE 🔎")
+    try:
+        mencari = input_teks("Masukkan genre DVD yang dicari: ").lower()
+        
+        dvd_cocok = {a: b for a, b in koleksi_dvd.items() if mencari in b["genre"].lower()}
+
+        if len(dvd_cocok) == 0:
+            raise KeyError(mencari)
+            
+    except ValueError as e:
+        print(f"\nGagal mencari DVD, {e}")
+    except KeyError:
+        print("\nDVD dengan genre tersebut tidak ditemukan!")
+    else:
+        print()
+        tampilkan_tabel_hasil(dvd_cocok)
+    finally:
+        enter("Tekan Enter untuk kembali ke menu...")
+        
+def tampilkan_tabel_hasil(data_dvd):
+    tabel = PrettyTable()
+    tabel.field_names = ["ID", "Judul", "Genre", "Tahun", "Harga Sewa", "Stok"]
+
+    for id_dvd, dvd in data_dvd.items():
+        tabel.add_row([
+            id_dvd,
+            dvd["judul"],
+            dvd["genre"],
+            dvd["tahun"],
+            f"Rp{dvd['harga']}",
+            dvd["stok"],
+        ])
+
+    tabel.align["Judul"] = "l"
+    tabel.align["Genre"] = "l"
+    tabel.align["Tahun"] = "l"
+
+    print(tabel)
+
+def manage_dvd():
+    clear_terminal()  
+    while True:
+        print("\n==============================")
+        print("          MANAGE DVD")
+        print("==============================")
+        pertanyaan = [
+            inquirer.List("pilihan", 
+            message="Pilih menu", 
+            choices=[" Tambah DVD", " Ubah data DVD", " Hapus DVD"]
+            )
+        ]
+        
+        jawaban = inquirer.prompt(pertanyaan, theme=tema_manage_dvd())
+        
+        
+        if jawaban["pilihan"]  == " Tambah DVD":
+            tambah_dvd()
+            break
+        
+        elif jawaban["pilihan"] == " Ubah data DVD":
+            ubah_dvd()
+            break
+        
+        elif jawaban["pilihan"] == " Hapus DVD":
+            hapus_dvd()
+            break
+            
 def tambah_dvd():
     clear_terminal()
     print("==========================================")
@@ -104,6 +195,7 @@ def tambah_dvd():
 
     finally:
         enter("Tekan Enter untuk kembali ke menu admin...")
+    
 
 def ubah_dvd():
     clear_terminal()

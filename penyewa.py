@@ -1,10 +1,11 @@
 from prettytable import PrettyTable
+import inquirer
 
+from tema import tema_manage_penyewa
 from data import data_penyewa, data_transaksi, counter
 from utils import clear_terminal, enter, input_teks, konfirmasi
 from storage import simpan_data
-
-
+        
 def tampilkan_penyewa():
     if len(data_penyewa) == 0:
         print("Belum ada penyewa.")
@@ -22,6 +23,40 @@ def tampilkan_penyewa():
         ])
 
     print(tabel)
+
+def manage_penyewa():
+    clear_terminal()
+
+    if len(data_penyewa) == 0:
+        print("DATA PENYEWA 📄")
+        print("Belum ada penyewa.")
+        enter("Tekan Enter untuk kembali ke menu admin...")
+        return
+    
+    while True:
+        print("\n==============================")
+        print("       MANAGE DATA PENYEWA")
+        print("==============================")
+        print("DATA PENYEWA 📄")
+        tampilkan_penyewa()
+        
+        pertanyaan = [
+            inquirer.List("pilihan", 
+            message="Pilih menu", 
+            choices=[" Ubah data penyewa", " Hapus data penyewa"]
+            )
+        ]
+        
+        jawaban = inquirer.prompt(pertanyaan, theme=tema_manage_penyewa())
+        
+        
+        if jawaban["pilihan"]  == " Ubah data penyewa":
+            ubah_penyewa()
+            break
+        
+        elif jawaban["pilihan"] == " Hapus data penyewa":
+            hapus_penyewa()
+            break
 
 def ubah_penyewa():
     clear_terminal()
@@ -95,7 +130,7 @@ def hapus_penyewa():
 
     finally:
         enter("Tekan Enter untuk kembali ke menu admin...")
-
+    
 def buat_id_penyewa():
     nomor = counter["penyewa"]
     id_baru = "Z" + str(nomor)
